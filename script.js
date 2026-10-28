@@ -26,7 +26,6 @@ for (let i = 0; i <= 99; i++) {
 
 input.addEventListener("input", (event) => {
   const value = event.target.value;
-  // the name changed, so the previous result no longer applies
   setNameStatus(null);
 
   if (!bloomToggle.checked) {
@@ -53,12 +52,10 @@ registerButton.addEventListener("click",()=>{
     flipBitsOnRegister(input.value.trim())
     registerUserName(input.value.trim())
     updateTable()
-    // the name is taken now, so it can't be registered again
     setNameStatus("exists")
   }
 })
 
-// "exists" -> red border + disabled button, "available" -> green border, null -> neutral
 function setNameStatus(status) {
   input.classList.toggle("exists", status === "exists");
   input.classList.toggle("available", status === "available");
