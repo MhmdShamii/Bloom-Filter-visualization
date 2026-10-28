@@ -191,3 +191,13 @@ function generateHash(username, range, seed) {
   h ^= h >>> 16;
   return (h >>> 0) % range;
 }
+
+const TEST_USERS = [
+  "ali", "sara", "omar", "lina", "ahmad",
+  "maya", "karim", "nour", "rami", "hala",
+];
+TEST_USERS.forEach((name) => {
+  flipBitsOnRegister(name);
+  registerUserName(name);
+});
+updateTable();
