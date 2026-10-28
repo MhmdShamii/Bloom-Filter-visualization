@@ -1,7 +1,7 @@
 const input = document.querySelector(".bloom-input");
 const bloomToggle = document.querySelector(".bloom-toggle");
 const bitsGrid = document.querySelector(".bits");
-const registerButton = document.querySelector(".register")
+const registerButton = document.querySelector("button.register")
 const usersTable = document.querySelector(".users-table")
 
 const hashOutputs = [
@@ -42,13 +42,13 @@ bloomToggle.addEventListener("change", () => {
   serverRequestCount = 0;
   document.querySelector(".server-data .count").textContent =
     serverRequestCount;
-  input.value = "";
+  input.value = ""; 
 });
 
 registerButton.addEventListener("click",()=>{
   if (input.value.trim()!=""){
     flipBitsOnRegister(input.value.trim())
-    arr.push(input.value.trim())
+    registerUserName(input.value.trim())
     updateTable()
   }
 })
@@ -61,16 +61,15 @@ function checkWithBloomFilter(value) {
   }
   if (!bloomFilterContains(userName)) {
     console.log(`"${userName}" is definitely new, added without a server request.`);
-    registerUserName(userName);
   } else {
     sendServerRequest(userName);
   }
 }
 
 function bloomFilterContains(username) {
-  return getBitIndexes(username).every((index) => {
-    bitsGrid.children[index].classList.contains("on");
-  });
+  return getBitIndexes(username).every((index) =>
+    bitsGrid.children[index].classList.contains("on")
+  );
 }
 
 function showHashes(userName) {
@@ -101,9 +100,7 @@ function sendServerRequest(value) {
   serverRequestCount++;
   document.querySelector(".server-data .count").textContent =
     serverRequestCount;
-  if (!checkUserName(value.trim())) {
-    arr.push(value.trim());
-  } else {
+  if (checkUserName(value.trim())) {
     input.classList.add("exists");
     console.log(`User name "${value.trim()}" already exists in the array.`);
   }
@@ -130,17 +127,22 @@ function getBitIndexes(userName) {
 }
 
 function updateTable(){
+  const tableBody = usersTable.tBodies[0]
+  while (tableBody.rows.length > 1) {
+    tableBody.deleteRow(1)
+  }
+
   arr.forEach((name,index) =>{
-    tr = document.createElement("tr")
-    td_id = document.createElement("td")
-    td_name = document.createElement("td")
+    const tr = document.createElement("tr")
+    const td_id = document.createElement("td")
+    const td_name = document.createElement("td")
     td_id.textContent = index
     td_name.textContent = name
-    
+
     tr.appendChild(td_id)
     tr.appendChild(td_name)
 
-    usersTable.appendChild(tr)
+    tableBody.appendChild(tr)
   })
 }
 

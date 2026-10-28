@@ -32,7 +32,7 @@ body{
     border-radius: 5px;
     outline: none;
 }
-.register{
+.register-container{
     display: flex;
     justify-content: center;
     align-items: center;
