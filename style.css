@@ -32,6 +32,28 @@ body{
     border-radius: 5px;
     outline: none;
 }
+.register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.register button{
+    flex: 1;
+    height: 100%;
+    padding: 10px;
+    outline: none;
+    border: none;
+    background-color: #99caff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.register button:hover{
+    transition: 0.5s;
+    background-color: #3e9bff;
+}
 
 .bloom-input.exists{
     border-color: red;
