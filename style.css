@@ -59,6 +59,16 @@ body{
     border-color: red;
 }
 
+.bloom-input.available{
+    border-color: green;
+}
+
+.register button:disabled{
+    background-color: #ccc;
+    color: #777;
+    cursor: not-allowed;
+}
+
 .Hashes{
     display: flex;
     gap: 10px;

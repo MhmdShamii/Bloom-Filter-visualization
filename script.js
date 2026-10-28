@@ -26,6 +26,8 @@ for (let i = 0; i <= 99; i++) {
 
 input.addEventListener("input", (event) => {
   const value = event.target.value;
+  // the name changed, so the previous result no longer applies
+  setNameStatus(null);
 
   if (!bloomToggle.checked) {
     sendServerRequest(value);
@@ -42,7 +44,8 @@ bloomToggle.addEventListener("change", () => {
   serverRequestCount = 0;
   document.querySelector(".server-data .count").textContent =
     serverRequestCount;
-  input.value = ""; 
+  input.value = "";
+  setNameStatus(null);
 });
 
 registerButton.addEventListener("click",()=>{
@@ -50,8 +53,17 @@ registerButton.addEventListener("click",()=>{
     flipBitsOnRegister(input.value.trim())
     registerUserName(input.value.trim())
     updateTable()
+    // the name is taken now, so it can't be registered again
+    setNameStatus("exists")
   }
 })
+
+// "exists" -> red border + disabled button, "available" -> green border, null -> neutral
+function setNameStatus(status) {
+  input.classList.toggle("exists", status === "exists");
+  input.classList.toggle("available", status === "available");
+  registerButton.disabled = status === "exists";
+}
 
 
 function checkWithBloomFilter(value) {
@@ -61,6 +73,7 @@ function checkWithBloomFilter(value) {
   }
   if (!bloomFilterContains(userName)) {
     console.log(`"${userName}" is definitely new, added without a server request.`);
+    setNameStatus("available");
   } else {
     sendServerRequest(userName);
   }
@@ -101,8 +114,10 @@ function sendServerRequest(value) {
   document.querySelector(".server-data .count").textContent =
     serverRequestCount;
   if (checkUserName(value.trim())) {
-    input.classList.add("exists");
+    setNameStatus("exists");
     console.log(`User name "${value.trim()}" already exists in the array.`);
+  } else {
+    setNameStatus("available");
   }
 }
 
