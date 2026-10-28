@@ -88,9 +88,7 @@ body{
 }
 
 .bit{
-    /* height: 30px;
-    width: 20px; */
-    background-color: gray;
+    background-color: rgba(128, 128, 128, 0.537);
     border-radius: 3px;
     display: flex;
     justify-content: center;
@@ -98,7 +96,7 @@ body{
     padding: 5px;
 }
 .bit.probe{
-    outline: 2px solid #007BFF;
+    outline: 3px solid #ff0000;
 }
 
 .bloom-toggle{
@@ -117,4 +115,47 @@ body{
 .server-data .count{
     font-size: 24px;
     font-weight: bold;
+}
+
+.table-section{
+    width: 600px;
+    max-width: 100%;
+}
+
+.table-section table{
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.table-section td{
+    padding: 10px 25px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+}
+
+.table-section td:not(:last-child){
+    border-right: 1px solid #e0e0e0;
+}
+
+/* first row is the header */
+.table-section tr:first-child td{
+    background-color: #a3d0ff;
+    font-weight: bold;
+    text-transform: capitalize;
+    border-bottom: none;
+}
+
+.table-section tr:nth-child(even) td{
+    background-color: #f5f9ff;
+}
+
+.table-section tr:not(:first-child):hover td{
+    transition: 0.3s;
+    background-color: #e6f2ff;
+}
+
+.table-section tr:last-child td{
+    border-bottom: none;
 }

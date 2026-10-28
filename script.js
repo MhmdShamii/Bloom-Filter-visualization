@@ -1,6 +1,8 @@
 const input = document.querySelector(".bloom-input");
 const bloomToggle = document.querySelector(".bloom-toggle");
 const bitsGrid = document.querySelector(".bits");
+const registerButton = document.querySelector(".register")
+const usersTable = document.querySelector(".users-table")
 
 const hashOutputs = [
   document.querySelector(".hash-output-1"),
@@ -43,6 +45,15 @@ bloomToggle.addEventListener("change", () => {
   input.value = "";
 });
 
+registerButton.addEventListener("click",()=>{
+  if (input.value.trim()!=""){
+    flipBitsOnRegister(input.value.trim())
+    arr.push(input.value.trim())
+    updateTable()
+  }
+})
+
+
 function checkWithBloomFilter(value) {
   const userName = value.trim();
   if (userName === "") {
@@ -72,8 +83,14 @@ function showHashes(userName) {
   }
   getBitIndexes(userName).forEach((index, i) => {
     hashOutputs[i].textContent = index;
-    bitsGrid.children[index].classList.add("probe", "on");
+    bitsGrid.children[index].classList.add("probe");
   });
+}
+
+function flipBitsOnRegister(username){
+  getBitIndexes(username).forEach((index)=>{
+    bitsGrid.children[index].classList.add("on")
+  })
 }
 
 function sendServerRequest(value) {
@@ -110,6 +127,21 @@ function getBitIndexes(userName) {
   return SEEDS.map((seed) =>
     generateHash(userName, bitsGrid.children.length, seed),
   );
+}
+
+function updateTable(){
+  arr.forEach((name,index) =>{
+    tr = document.createElement("tr")
+    td_id = document.createElement("td")
+    td_name = document.createElement("td")
+    td_id.textContent = index
+    td_name.textContent = name
+    
+    tr.appendChild(td_id)
+    tr.appendChild(td_name)
+
+    usersTable.appendChild(tr)
+  })
 }
 
 function generateHash(username, range, seed) {
