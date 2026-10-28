@@ -7,13 +7,34 @@
 body{
     font-family: 'Poppins', sans-serif;
     background: #f5f5f5;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
+    min-height: 100vh;
+    padding: 20px;
+    /* table on the left, bloom sections on the right, stats along the bottom */
+    display: grid;
+    grid-template-columns: 350px auto;
+    grid-template-areas:
+        "table bloom"
+        "table result"
+        "stats stats";
     justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    align-content: center;
     gap: 20px;
+}
+
+.section.bloom{
+    grid-area: bloom;
+}
+
+.section.bloom-result{
+    grid-area: result;
+}
+
+.section.server-data{
+    grid-area: stats;
+}
+
+.section.table-section{
+    grid-area: table;
 }
 
 .section{
@@ -128,8 +149,7 @@ body{
 }
 
 .table-section{
-    width: 600px;
-    max-width: 100%;
+    width: 100%;
 }
 
 .table-section table{
