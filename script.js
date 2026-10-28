@@ -10,7 +10,13 @@ const hashOutputs = [
   document.querySelector(".hash-output-3"),
 ];
 
+const requestsCount = document.querySelector(".requests-count")
+const skippedCount = document.querySelector(".skipped-count")
+const falsePositiveCount = document.querySelector(".false-positive-count")
+
 let serverRequestCount = 0;
+let skippedRequestCount = 0;
+let falsePositiveRequestCount = 0;
 let debounceTimeout = 500;
 const SEEDS = [2166136261, 12345, 98765];
 
@@ -41,8 +47,9 @@ input.addEventListener("input", (event) => {
 
 bloomToggle.addEventListener("change", () => {
   serverRequestCount = 0;
-  document.querySelector(".server-data .count").textContent =
-    serverRequestCount;
+  skippedRequestCount = 0;
+  falsePositiveRequestCount = 0;
+  updateStats();
   input.value = "";
   setNameStatus(null);
 });
@@ -70,10 +77,18 @@ function checkWithBloomFilter(value) {
   }
   if (!bloomFilterContains(userName)) {
     console.log(`"${userName}" is definitely new, added without a server request.`);
+    skippedRequestCount++;
+    updateStats();
     setNameStatus("available");
   } else {
-    sendServerRequest(userName);
+    sendServerRequest(userName, true);
   }
+}
+
+function updateStats() {
+  requestsCount.textContent = serverRequestCount;
+  skippedCount.textContent = skippedRequestCount;
+  falsePositiveCount.textContent = falsePositiveRequestCount;
 }
 
 function bloomFilterContains(username) {
@@ -102,20 +117,25 @@ function flipBitsOnRegister(username){
   })
 }
 
-function sendServerRequest(value) {
+// askedByBloom: true when the bloom filter said "maybe" (all 3 bits on)
+function sendServerRequest(value, askedByBloom = false) {
   if (value.trim() === "") {
     return;
   }
   console.log(`Sending server request for user name: "${value.trim()}"`);
   serverRequestCount++;
-  document.querySelector(".server-data .count").textContent =
-    serverRequestCount;
   if (checkUserName(value.trim())) {
     setNameStatus("exists");
     console.log(`User name "${value.trim()}" already exists in the array.`);
   } else {
+    // the bloom filter said "maybe" but the server says no
+    if (askedByBloom) {
+      falsePositiveRequestCount++;
+      console.log(`False positive: "${value.trim()}" doesn't exist.`);
+    }
     setNameStatus("available");
   }
+  updateStats();
 }
 
 function registerUserName(userName) {

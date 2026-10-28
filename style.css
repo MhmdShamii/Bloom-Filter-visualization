@@ -60,20 +60,26 @@ body{
     gap: 10px;
 }
 
-.register button{
-    flex: 1;
-    height: 100%;
-    padding: 10px;
+button.register{
+    padding: 10px 20px;
+    font-family: inherit;
+    font-weight: 600;
     outline: none;
     border: none;
     background-color: #99caff;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.5s, color 0.5s;
 }
 
-.register button:hover{
-    transition: 0.5s;
+button.register:hover{
     background-color: #3e9bff;
+    color: #fff;
+}
+
+button.register:focus-visible{
+    outline: 2px solid #3e9bff;
+    outline-offset: 2px;
 }
 
 .bloom-input.exists{
@@ -84,7 +90,7 @@ body{
     border-color: green;
 }
 
-.register button:disabled{
+button.register:disabled{
     background-color: #ccc;
     color: #777;
     cursor: not-allowed;
@@ -139,6 +145,12 @@ body{
     cursor: pointer;
 }
 .server-data{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.stat{
     display: flex;
     flex-direction: column;
     align-items: center;
